@@ -1,17 +1,36 @@
 package com.thinkxfactor.springdemo.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "tbl_student")
+
 public class Student {
-    private int rollNo;
+
+    @Id
+    @GeneratedValue
+    @Column(name = "id")
+    private int id;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "address")
     private String address;
+
+    @Column(name = "gender")
     private String gender;
 
-    public int getRollNo() {
-        return rollNo;
+    public int getid() {
+        return id;
     }
 
-    public void setRollNo(int rollNo) {
-        this.rollNo = rollNo;
+    public void setid(int id) {
+        this.id = id;
     }
 
     public String getName() {
