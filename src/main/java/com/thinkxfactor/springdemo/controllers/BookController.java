@@ -1,5 +1,6 @@
 package com.thinkxfactor.springdemo.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,39 +10,42 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.ArrayList;
 
 import com.thinkxfactor.springdemo.entity.Book;
+import com.thinkxfactor.springdemo.repository.BookRepository;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 @RequestMapping("/book")
 public class BookController {
-    @GetMapping("/getByISBN/{isbn}")
-    public String fetchBook(@PathVariable String isbn) {
-        return "Will return Book with rollNo = " + isbn;
+
+    @Autowired
+    BookRepository bookRepository;
+
+    @GetMapping("/getByBId/{bid}")
+    public Book getByBId(@PathVariable Long bid) {
+        return bookRepository.findById(bid).get();
     }
 
     @PostMapping("/addBook")
-    public String addBook(@RequestBody Book Book) {
-        return Book.toString();
+    public Book addBook(@RequestBody Book book) {
+        return bookRepository.save(book);
     }
 
     @GetMapping("/getAll")
     public List<Book> getBookList() {
-        List<Book> Books = new ArrayList<Book>();
-        return Books;
+        return bookRepository.findAll();
     }
 
-    @PutMapping("/update/{isbn}")
-    public String updateBook(@PathVariable String isbn) {
-        return "Updated at isbn :" + isbn;
+    @PutMapping("/updateBook")
+    public Book updateBook(@RequestBody Book book) {
+        return bookRepository.save(book);
     }
 
-    @DeleteMapping("/deleteById/{isbn}")
-    public String deleteById(@PathVariable("isbn") int isbn) {
-        return "Succesfully Deleted : " + isbn;
+    @DeleteMapping("/deleteById/{bid}")
+    public void deleteById(@PathVariable("bid") Long bid) {
+        bookRepository.deleteById(bid);
     }
 
 }
